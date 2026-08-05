@@ -6,61 +6,68 @@
 
 body {
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: linear-gradient(180deg, #f3f6fb 0%, #eef3ff 100%);
-  color: #0f1724;
+  background: radial-gradient(circle at top, rgba(99, 102, 241, 0.25), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.18), transparent 24%),
+    linear-gradient(180deg, #0b1220 0%, #111827 100%);
+  color: #e2e8f0;
   line-height: 1.6;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
-  max-width: 760px;
+  max-width: 840px;
   margin: 48px auto;
-  padding: 0 20px;
+  padding: 0 20px 32px;
 }
 
 h1 {
-  font-size: 1.9rem;
-  margin-bottom: 6px;
-  color: #0b1220;
+  font-size: 2.4rem;
+  margin-bottom: 8px;
+  letter-spacing: -0.04em;
+  color: #f8fafc;
 }
 
 .subtitle {
-  color: #6b7280;
-  margin-bottom: 20px;
+  color: #cbd5e1;
+  margin-bottom: 24px;
+  font-size: 1rem;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-  margin-bottom: 20px;
+  gap: 14px;
+  background: rgba(15, 23, 42, 0.88);
+  padding: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.32);
+  backdrop-filter: blur(18px);
+  margin-bottom: 28px;
 }
 
 .form input,
 .form textarea {
-  padding: 12px 14px;
-  border: 1px solid #e6e9ef;
-  border-radius: 8px;
+  padding: 14px 16px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 16px;
   font-size: 1rem;
-  background: #fbfdff;
-  color: #0b1220;
+  background: rgba(248, 250, 252, 0.14);
+  color: #e2e8f0;
 }
 
 .form textarea {
   resize: vertical;
-  min-height: 72px;
+  min-height: 90px;
 }
 
 .form input:focus,
 .form textarea:focus {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
-  border-color: #4f46e5;
+  box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.12);
+  border-color: rgba(167, 139, 250, 0.64);
 }
 
 .form .actions {
@@ -70,19 +77,21 @@ h1 {
 }
 
 .form button {
-  padding: 10px 14px;
-  background: #0f172a;
-  color: #ffffff;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  color: #f8fafc;
   border: none;
-  border-radius: 8px;
-  font-size: 0.98rem;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: transform 0.08s ease, background 0.12s ease;
+  transition: transform 0.15s ease, filter 0.15s ease;
 }
 
 .form button:hover:not(:disabled) {
   transform: translateY(-1px);
-  background: #071028;
+  filter: brightness(1.05);
 }
 
 .form button:disabled {
@@ -91,9 +100,15 @@ h1 {
 }
 
 .message {
-  color: #6b7280;
+  color: #cbd5e1;
   text-align: center;
   padding: 18px;
+}
+
+.status-message {
+  color: #a5f3fc;
+  font-size: 0.95rem;
+  margin-top: 4px;
 }
 
 .notes-list {
@@ -104,13 +119,14 @@ h1 {
 }
 
 .note-item {
-  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-  padding: 14px 16px;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(11, 18, 32, 0.04);
+  background: rgba(15, 23, 42, 0.92);
+  padding: 18px 20px;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .note-header {
@@ -121,12 +137,12 @@ h1 {
 }
 
 .note-header strong {
-  color: #071028;
-  font-size: 1.02rem;
+  color: #f8fafc;
+  font-size: 1.05rem;
 }
 
 .note-body span {
-  color: #334155;
+  color: #cbd5e1;
   white-space: pre-wrap;
 }
 
@@ -138,17 +154,18 @@ h1 {
 }
 
 .note-header button {
-  background: #ef4444;
-  color: #fff;
+  background: #fb7185;
+  color: #ffffff;
   border: none;
-  padding: 6px 10px;
-  border-radius: 8px;
+  padding: 8px 12px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  transition: transform 0.12s ease, filter 0.12s ease;
 }
 
 .note-header button:hover {
-  background: #dc2626;
+  filter: brightness(0.95);
   transform: translateY(-1px);
 }
 
