@@ -27,4 +27,15 @@ app.post("/api/notes", (req, res) => {
   res.status(201).json(newNote);
 });
 
+// DELETE /api/notes/:id — remove a note by id
+app.delete("/api/notes/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const index = notes.findIndex((n) => n.id === id);
+  if (index === -1) {
+    return res.status(404).json({ error: "Note not found" });
+  }
+  const deleted = notes.splice(index, 1)[0];
+  res.json(deleted);
+});
+
 app.listen(5000, () => console.log("Server running on port 5000"));

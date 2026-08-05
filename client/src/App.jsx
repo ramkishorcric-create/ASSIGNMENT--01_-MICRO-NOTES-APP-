@@ -34,7 +34,8 @@ function App() {
         body: JSON.stringify({ title, content }),
       });
       const newNote = await response.json();
-      setNotes((prevNotes) => [...prevNotes, newNote]);
+      // show newest notes at the top
+      setNotes((prevNotes) => [newNote, ...prevNotes]);
       setTitle("");
       setContent("");
     } catch (error) {
@@ -53,10 +54,11 @@ function App() {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"
         />
-        <input
+        <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Content"
+          rows={3}
         />
         <button onClick={handleAddNote} disabled={!title.trim()}>
           Add Note
@@ -71,14 +73,38 @@ function App() {
         <ul className="notes-list">
           {notes.map((note) => (
             <li key={note.id} className="note-item">
-              <strong>{note.title}</strong>
-              <span>{note.content}</span>
+              <div className="note-header">
+                <strong>{note.title}</strong>
+                <button onClick={() => handleDelete(note.id)}>Delete</button>
+              </div>
+              <div className="note-body">
+                <span>{note.content}</span>
+              </div>
+              <div className="note-meta">
+                <small>{new Date(note.createdAt).toLocaleString()}</small>
+              </div>
             </li>
           ))}
         </ul>
       )}
     </div>
   );
+}
+
+// delete handler: call server then remove from state
+async function handleDelete(id) {
+  try {
+    const resp = await fetch(`http://localhost:5000/api/notes/${id}`, {
+      method: "DELETE",
+    });
+    if (resp.ok) {
+      setNotes((prev) => prev.filter((n) => n.id !== id));
+    } else {
+      console.error("Failed to delete note:", resp.status);
+    }
+  } catch (error) {
+    console.error("Failed to delete note:", error);
+  }
 }
 
 export default App;
