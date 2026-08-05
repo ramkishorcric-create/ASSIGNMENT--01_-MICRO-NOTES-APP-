@@ -5,6 +5,7 @@ function App() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState("");
 
   // TODO 3: on page load, fetch all notes from GET /api/notes
   // hint: use useEffect + async/await, same pattern as warmup.js A5
@@ -38,8 +39,28 @@ function App() {
       setNotes((prevNotes) => [newNote, ...prevNotes]);
       setTitle("");
       setContent("");
+      setStatus("Note added successfully.");
     } catch (error) {
       console.error("Failed to add note:", error);
+      setStatus("Unable to add note.");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const resp = await fetch(`http://localhost:5000/api/notes/${id}`, {
+        method: "DELETE",
+      });
+      if (resp.ok) {
+        setNotes((prev) => prev.filter((note) => note.id !== id));
+        setStatus("Note deleted successfully.");
+      } else {
+        console.error("Failed to delete note:", resp.status);
+        setStatus("Unable to delete note.");
+      }
+    } catch (error) {
+      console.error("Failed to delete note:", error);
+      setStatus("Unable to delete note.");
     }
   };
 
@@ -63,6 +84,7 @@ function App() {
         <button onClick={handleAddNote} disabled={!title.trim()}>
           Add Note
         </button>
+        {status && <p className="status-message">{status}</p>}
       </div>
 
       {loading ? (
@@ -89,22 +111,6 @@ function App() {
       )}
     </div>
   );
-}
-
-// delete handler: call server then remove from state
-async function handleDelete(id) {
-  try {
-    const resp = await fetch(`http://localhost:5000/api/notes/${id}`, {
-      method: "DELETE",
-    });
-    if (resp.ok) {
-      setNotes((prev) => prev.filter((n) => n.id !== id));
-    } else {
-      console.error("Failed to delete note:", resp.status);
-    }
-  } catch (error) {
-    console.error("Failed to delete note:", error);
-  }
 }
 
 export default App;
